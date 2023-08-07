@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+const errorLogger = require("./util/errorLogs");
+
 const userRoute = require("./routes/userRoute");
 const incomeRoute = require("./routes/incomeRoute");
 const dateRoute = require("./routes/dateRoute");
@@ -26,6 +28,17 @@ app.use((req, res, next) => {
 app.use("/user", userRoute);
 app.use("/income", incomeRoute);
 app.use("/date", dateRoute);
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  errorLogger(err);
+  res
+    .status(statusCode)
+    .json({
+      message: "Something went wrong at the server side..!!",
+      status: -1,
+    });
+});
 
 mongoose
   .connect(URI)

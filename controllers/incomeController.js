@@ -17,8 +17,8 @@ exports.getIncomeData = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
-    next();
+    err.statusCode = 500;
+    next(err);
   }
 };
 
@@ -47,8 +47,8 @@ exports.postBankName = async (req, res, next) => {
       }
     }
   } catch (err) {
-    console.log(err);
-    next();
+    err.statusCode = 500;
+    next(err);
   }
 };
 
@@ -75,8 +75,8 @@ exports.postIncomeData = async (req, res, next) => {
         .json({ message: "No user available for this id...", status: 0 });
     }
   } catch (err) {
-    console.log(err);
-    next();
+    err.statusCode = 500;
+    next(err);
   }
 };
 
@@ -106,6 +106,7 @@ exports.postDeleteIncomeData = async (req, res, next) => {
       })
       .catch((err) => console.log(err));
   } catch (err) {
-    console.log(err);
+    err.statusCode = 500;
+    next(err);
   }
 };

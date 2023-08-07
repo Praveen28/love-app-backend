@@ -16,7 +16,8 @@ exports.getDates = async (req, res, next) => {
       status: 1,
     });
   } catch (err) {
-    console.log(err);
+    err.statusCode = 500;
+    next(err);
   }
 };
 
@@ -48,16 +49,15 @@ exports.postDates = async (req, res, next) => {
         });
         new_user.save();
       }
-      res
-        .status(201)
-        .json({
-          message: "Dates loaded successfully....",
-          status: 1,
-          userData: user_exist,
-        });
+      res.status(201).json({
+        message: "Dates loaded successfully....",
+        status: 1,
+        userData: user_exist,
+      });
     }
   } catch (err) {
-    console.log(err);
+    err.statusCode = 500;
+    next(err);
   }
 };
 
@@ -74,6 +74,7 @@ exports.postDeleteData = async (req, res, next) => {
       dates: user.period_dates,
     });
   } catch (err) {
-    console.log(err);
+    err.statusCode = 500;
+    next(err);
   }
 };
